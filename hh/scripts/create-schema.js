@@ -8,14 +8,11 @@ const EASContractAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
 // create schema
 async function main() {
   const [signer0] = await hre.ethers.getSigners();
-  //   console.log(signer0);
 
   const schemaRegistry = new SchemaRegistry(schemaRegistryContractAddress);
   schemaRegistry.connect(signer0);
 
-  const schema = "uint128 eventId, uint8 voteIndex";
-  // Unused
-  //   const resolverAddress = "0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0"; // Sepolia 0.26
+  const schema = "uint256 eventId, uint8 voteIndex";
   const revocable = false;
 
   const transaction = await schemaRegistry.register({
@@ -23,8 +20,8 @@ async function main() {
     revocable,
   });
 
-  const waited = await transaction.wait();
-  console.log(waited);
+  const schemaUID = await transaction.wait();
+  console.log("schemaUID: ", schemaUID);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
